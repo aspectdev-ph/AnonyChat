@@ -5,14 +5,19 @@ namespace MyApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
-class Socket implements MessageComponentInterface {
+
+require dirname(__FILE__) . '/socket.php';
+require dirname(__FILE__) . '/vendor/autoload.php';
+class Socket implements MessageComponentInterface
+{
 
     public function __construct()
     {
         $this->clients = new \SplObjectStorage;
     }
 
-    public function onOpen(ConnectionInterface $conn) {
+    public function onOpen(ConnectionInterface $conn)
+    {
 
         // Store the new connection in $this->clients
         $this->clients->attach($conn);
@@ -20,21 +25,24 @@ class Socket implements MessageComponentInterface {
         echo "New connection! ({$conn->resourceId})\n";
     }
 
-    public function onMessage(ConnectionInterface $from, $msg) {
+    public function onMessage(ConnectionInterface $from, $msg)
+    {
 
-        foreach ( $this->clients as $client ) {
+        foreach ($this->clients as $client) {
 
-            if ( $from->resourceId == $client->resourceId ) {
+            if ($from->resourceId == $client->resourceId) {
                 continue;
             }
 
-            $client->send( "Client $from->resourceId said $msg" );
+            $client->send("Client $from->resourceId said $msg");
         }
     }
 
-    public function onClose(ConnectionInterface $conn) {
+    public function onClose(ConnectionInterface $conn)
+    {
     }
 
-    public function onError(ConnectionInterface $conn, \Exception $e) {
+    public function onError(ConnectionInterface $conn, \Exception $e)
+    {
     }
 }
