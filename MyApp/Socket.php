@@ -5,7 +5,6 @@ namespace MyApp;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
 
-require dirname(__FILE__) . '/MyApp/socket.php';
 require dirname(__FILE__) . '/vendor/autoload.php';
 class Socket implements MessageComponentInterface
 {
